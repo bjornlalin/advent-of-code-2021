@@ -13,12 +13,7 @@ def increases(measures):
 # Here execution starts
 ########################
 
-measures = []
-inc_1 = 0
-inc_2 = 0
-
-for line in sys.stdin:
-    measures.append(int(line))
+measures = [int(line) for line in sys.stdin]
 
 print(f'Part 1: There are {increases(diffs(measures))} increases')
 print(f'Part 2: There are {increases(diffs(sliding_window_avg(measures)))} increases')
