@@ -59,6 +59,7 @@ def create_bingo_drawer(numbers):
     for n in range(0, len(numbers)):
         yield numbers[:n+1]
 
+# Flatten each board input into 1-D list (Board class constructor expects that representation)
 def create_board(lines):
     board_nums = [int(n) for line in lines for n in re.findall(r'\S+', line)]
     return Board(board_nums)        
