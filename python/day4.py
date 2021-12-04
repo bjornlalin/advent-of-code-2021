@@ -3,14 +3,10 @@ from utils import input_from_stream
 
 class Board:
 
-    def __init__(self, id, board_nums) -> None:
-        self.id =  id
+    def __init__(self, board_nums) -> None:
         self.rows = [set(board_nums[n*5:n*5+5]) for n in range(0, 5)]
         self.cols = [set(board_nums[n:len(board_nums)+1:5]) for n in range(0, 5)]
         self.all = set().union(*self.rows)
-
-    def __eq__(self, other):
-        return self.id == other.id
 
     def bingo(self, drawn):
         drawn_set = set(drawn)
@@ -63,12 +59,12 @@ def create_bingo_drawer(numbers):
     for n in range(0, len(numbers)):
         yield numbers[:n+1]
 
-def create_board(id, lines):
+def create_board(lines):
     board_nums = [int(n) for line in lines for n in re.findall(r'\S+', line)]
-    return Board(id, board_nums)        
+    return Board(board_nums)        
 
 # Read 5 lines each to fetch boards and construct Board instance
-boards = [create_board(idx, lines[idx:idx+5]) for idx in range(1, len(lines), 5)]
+boards = [create_board(lines[idx:idx+5]) for idx in range(1, len(lines), 5)]
 
 # Solve puzzles
 print(f'Part 1: {part1(create_bingo_drawer(numbers), boards)}')
