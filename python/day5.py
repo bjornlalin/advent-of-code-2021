@@ -4,30 +4,19 @@ from geom import Point, Line
 class LineDay5 (Line):
 
     def points_on_line(self, include_diag=False):
-    
-        if self.is_vertical():
-            if self.p1.y > self.p2.y:
-                return [Point(self.p1.x, y) for y in range(self.p2.y, self.p1.y + 1)]
-            else:
-                return [Point(self.p1.x, y) for y in range(self.p1.y, self.p2.y + 1)]
-        elif self.is_horizontal():
-            if self.p1.x > self.p2.x:
-                return [Point(x, self.p1.y) for x in range(self.p2.x, self.p1.x + 1)]
-            else:
-                return [Point(x, self.p1.y) for x in range(self.p1.x, self.p2.x + 1)]
-        elif self.is_diagonal():
-            if include_diag:
-                dx = 1 if self.p1.x < self.p2.x else -1
-                dy = 1 if self.p1.y < self.p2.y else -1
-                len = abs(self.p1.x - self.p2.x)
-                diag_points = [Point(self.p1.x + (i * dx), self.p1.y + (i * dy)) for i in range(0,len+1)]
-                #print(f'These points {diag_points} are on line {self}')
-                return diag_points
-            else:
-                return []
-        else:
+        if not (self.is_straight() or self.is_diagonal()):
             raise Exception('This method only supports vertical, horizontal or diagonal lines')
 
+        dx = 0 if self.p1.x == self.p2.x else (1 if self.p1.x < self.p2.x else -1)
+        dy = 0 if self.p1.y == self.p2.y else (1 if self.p1.y < self.p2.y else -1)
+        len = max(abs(self.p1.x - self.p2.x), abs(self.p1.y - self.p2.y))
+        points = [Point(self.p1.x + (i * dx), self.p1.y + (i * dy)) for i in range(0,len+1)]
+        #print(f'These points {points} are on line {self}')
+
+        if self.is_straight() or (self.is_diagonal() and include_diag):
+            return points
+
+        return []
 
 def part1(lines):
     return part_both(lines, include_diag=False)
