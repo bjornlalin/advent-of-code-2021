@@ -5,7 +5,7 @@ class LineDay5 (Line):
 
     def points_on_line(self, include_diag=False):
         if not (self.is_straight() or self.is_diagonal()):
-            raise Exception('This method only supports vertical, horizontal or diagonal lines')
+            raise Exception('This method only supports straight and diagonal lines')
 
         dx = 0 if self.p1.x == self.p2.x else (1 if self.p1.x < self.p2.x else -1)
         dy = 0 if self.p1.y == self.p2.y else (1 if self.p1.y < self.p2.y else -1)
